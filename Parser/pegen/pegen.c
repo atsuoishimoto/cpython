@@ -2160,3 +2160,47 @@ _PyPegen_nonparen_genexp_in_call(Parser *p, expr_ty args)
         "Generator expression must be parenthesized"
     );
 }
+
+
+KeyValuePair *_PyPegen_jsondict_key_value_pair(Parser *p, expr_ty key, expr_ty value) {
+
+    const char *s = PyUnicode_AsUTF8(key->v.Name.id);
+    PyObject *name = _PyPegen_new_identifier(p, s);
+
+    expr_ty keyname = Constant(name, NULL, key->lineno, key->col_offset, key->end_lineno, key->end_col_offset,
+                    p->arena);
+
+    KeyValuePair *a = PyArena_Malloc(p->arena, sizeof(KeyValuePair));
+    if (!a) {
+        return NULL;
+    }
+    a->key = keyname;
+    a->value = value;
+    return a;
+}
+
+KeyValuePair *_PyPegen_jsondict_key_value_name(Parser *p, expr_ty e) {
+    const char *s;
+    PyObject *name;
+    expr_ty key;
+
+    if (e->kind != Name_kind) {
+        return NULL;
+    }
+
+    s = PyUnicode_AsUTF8(e->v.Name.id);
+    name = _PyPegen_new_identifier(p, s);
+
+    key = Constant(name, NULL, e->lineno, e->col_offset, e->end_lineno, e->end_col_offset,
+                    p->arena);
+
+
+    KeyValuePair *a = PyArena_Malloc(p->arena, sizeof(KeyValuePair));
+    if (!a) {
+        return NULL;
+    }
+    a->key = key;
+    a->value = e;
+    return a;
+}
+

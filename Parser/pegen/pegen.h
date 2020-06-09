@@ -262,6 +262,10 @@ asdl_seq *_PyPegen_join_sequences(Parser *, asdl_seq *, asdl_seq *);
 int _PyPegen_check_barry_as_flufl(Parser *);
 mod_ty _PyPegen_make_module(Parser *, asdl_seq *);
 
+
+KeyValuePair *_PyPegen_jsondict_key_value_pair(Parser *, expr_ty, expr_ty);
+KeyValuePair *_PyPegen_jsondict_key_value_name(Parser *, expr_ty);
+
 // Error reporting helpers
 expr_ty _PyPegen_get_invalid_target(expr_ty e);
 void *_PyPegen_arguments_parsing_error(Parser *, expr_ty);

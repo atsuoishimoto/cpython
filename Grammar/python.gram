@@ -479,6 +479,7 @@ atom[expr_ty]:
     | &'(' (tuple | group | genexp)
     | &'[' (list | listcomp)
     | &'{' (dict | set | dictcomp | setcomp)
+    | &'${' (jsondict)
     | '...' { _Py_Constant(Py_Ellipsis, NULL, EXTRA) }
 
 strings[expr_ty] (memo): a=STRING+ { _PyPegen_concatenate_strings(p, a) }
@@ -516,6 +517,17 @@ for_if_clause[comprehension_ty]:
         CHECK_VERSION(6, "Async comprehensions are", _Py_comprehension(a, b, c, 1, p->arena)) }
     | 'for' a=star_targets 'in' b=disjunction c=('if' z=disjunction { z })* {
         _Py_comprehension(a, b, c, 0, p->arena) }
+
+
+jsondict[expr_ty]:
+    | '${' a=[jsondict_double_starred_kvpairs] '}' {
+        _Py_Dict(CHECK(_PyPegen_get_keys(p, a)), CHECK(_PyPegen_get_values(p, a)), EXTRA) }
+jsondict_double_starred_kvpairs[asdl_seq*]: a=','.jsondict_double_starred_kvpair+ [','] { a }
+jsondict_double_starred_kvpair[KeyValuePair*]:
+    | '**' a=bitwise_or { _PyPegen_key_value_pair(p, NULL, a) }
+    | a=NAME ':' b=expression { _PyPegen_jsondict_key_value_pair(p, a, b) }
+    | a=NAME { _PyPegen_jsondict_key_value_name(p, a) }
+
 
 yield_expr[expr_ty]:
     | 'yield' 'from' a=expression { _Py_YieldFrom(a, EXTRA) }
