@@ -53,6 +53,7 @@ ATEQUAL                 '@='
 RARROW                  '->'
 ELLIPSIS                '...'
 COLONEQUAL              ':='
+JLBRACE                  '${'
 
 OP
 AWAIT

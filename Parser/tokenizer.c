@@ -1769,6 +1769,15 @@ tok_get(struct tok_state *tok, const char **p_start, const char **p_end)
     /* Check for two-character token */
     {
         int c2 = tok_nextc(tok);
+
+        /* Check for json literal */
+        if (c == '$' && c2 == '{') {
+            tok->parenstack[tok->level] = '{';
+            tok->parenlinenostack[tok->level] = tok->lineno;
+            tok->level++;
+            return JLBRACE;
+        }
+
         int token = PyToken_TwoChars(c, c2);
         if (token != OP) {
             int c3 = tok_nextc(tok);
