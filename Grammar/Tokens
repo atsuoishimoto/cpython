@@ -24,7 +24,6 @@ GREATER                 '>'
 EQUAL                   '='
 DOT                     '.'
 PERCENT                 '%'
-JLBRACE                  'j{'
 LBRACE                  '{'
 RBRACE                  '}'
 EQEQUAL                 '=='
@@ -54,6 +53,7 @@ ATEQUAL                 '@='
 RARROW                  '->'
 ELLIPSIS                '...'
 COLONEQUAL              ':='
+JLBRACE                  '${'
 
 OP
 AWAIT

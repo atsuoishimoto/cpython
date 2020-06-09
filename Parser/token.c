@@ -31,7 +31,6 @@ const char * const _PyParser_TokenNames[] = {
     "EQUAL",
     "DOT",
     "PERCENT",
-    "JLBRACE",
     "LBRACE",
     "RBRACE",
     "EQEQUAL",
@@ -61,6 +60,7 @@ const char * const _PyParser_TokenNames[] = {
     "RARROW",
     "ELLIPSIS",
     "COLONEQUAL",
+    "JLBRACE",
     "OP",
     "AWAIT",
     "ASYNC",
@@ -113,6 +113,11 @@ PyToken_TwoChars(int c1, int c2)
     case '!':
         switch (c2) {
         case '=': return NOTEQUAL;
+        }
+        break;
+    case '$':
+        switch (c2) {
+        case '{': return JLBRACE;
         }
         break;
     case '%':
@@ -179,11 +184,6 @@ PyToken_TwoChars(int c1, int c2)
     case '^':
         switch (c2) {
         case '=': return CIRCUMFLEXEQUAL;
-        }
-        break;
-    case '`':
-        switch (c2) {
-        case '{': return JLBRACE;
         }
         break;
     case '|':

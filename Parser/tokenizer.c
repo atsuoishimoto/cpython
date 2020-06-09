@@ -1744,7 +1744,7 @@ tok_get(struct tok_state *tok, char **p_start, char **p_end)
     {
         int c2 = tok_nextc(tok);
 
-        if (c == '`' && c2 == '{') {
+        if (c == '$' && c2 == '{') {
             tok->parenstack[tok->level] = '{';
             tok->parenlinenostack[tok->level] = tok->lineno;
             tok->level++;

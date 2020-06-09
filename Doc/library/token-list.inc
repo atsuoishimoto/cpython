@@ -85,10 +85,6 @@
 
    Token value for ``"%"``.
 
-.. data:: JLBRACE
-
-   Token value for ``"`{"``.
-
 .. data:: LBRACE
 
    Token value for ``"{"``.
@@ -204,6 +200,10 @@
 .. data:: COLONEQUAL
 
    Token value for ``":="``.
+
+.. data:: JLBRACE
+
+   Token value for ``"${"``.
 
 .. data:: OP
 
