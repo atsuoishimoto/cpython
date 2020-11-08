@@ -244,6 +244,7 @@ asdl_int_seq *_PyPegen_get_cmpops(Parser *p, asdl_seq *);
 asdl_expr_seq *_PyPegen_get_exprs(Parser *, asdl_seq *);
 expr_ty _PyPegen_set_expr_context(Parser *, expr_ty, expr_context_ty);
 KeyValuePair *_PyPegen_key_value_pair(Parser *, expr_ty, expr_ty);
+KeyValuePair *_PyPegen_key_value_shorthand(Parser *, expr_ty);
 asdl_expr_seq *_PyPegen_get_keys(Parser *, asdl_seq *);
 asdl_expr_seq *_PyPegen_get_values(Parser *, asdl_seq *);
 NameDefaultPair *_PyPegen_name_default_pair(Parser *, arg_ty, expr_ty, Token *);

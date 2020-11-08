@@ -11807,7 +11807,7 @@ double_starred_kvpairs_rule(Parser *p)
     return _res;
 }
 
-// double_starred_kvpair: '**' bitwise_or | kvpair
+// double_starred_kvpair: '**' bitwise_or | ':' NAME | kvpair
 static KeyValuePair*
 double_starred_kvpair_rule(Parser *p)
 {
@@ -11844,6 +11844,33 @@ double_starred_kvpair_rule(Parser *p)
         p->mark = _mark;
         D(fprintf(stderr, "%*c%s double_starred_kvpair[%d-%d]: %s failed!\n", p->level, ' ',
                   p->error_indicator ? "ERROR!" : "-", _mark, p->mark, "'**' bitwise_or"));
+    }
+    { // ':' NAME
+        if (p->error_indicator) {
+            D(p->level--);
+            return NULL;
+        }
+        D(fprintf(stderr, "%*c> double_starred_kvpair[%d-%d]: %s\n", p->level, ' ', _mark, p->mark, "':' NAME"));
+        Token * _literal;
+        expr_ty a;
+        if (
+            (_literal = _PyPegen_expect_token(p, 11))  // token=':'
+            &&
+            (a = _PyPegen_name_token(p))  // NAME
+        )
+        {
+            D(fprintf(stderr, "%*c+ double_starred_kvpair[%d-%d]: %s succeeded!\n", p->level, ' ', _mark, p->mark, "':' NAME"));
+            _res = _PyPegen_key_value_shorthand ( p , a );
+            if (_res == NULL && PyErr_Occurred()) {
+                p->error_indicator = 1;
+                D(p->level--);
+                return NULL;
+            }
+            goto done;
+        }
+        p->mark = _mark;
+        D(fprintf(stderr, "%*c%s double_starred_kvpair[%d-%d]: %s failed!\n", p->level, ' ',
+                  p->error_indicator ? "ERROR!" : "-", _mark, p->mark, "':' NAME"));
     }
     { // kvpair
         if (p->error_indicator) {

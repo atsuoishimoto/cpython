@@ -535,6 +535,7 @@ dictcomp[expr_ty]:
 double_starred_kvpairs[asdl_seq*]: a=','.double_starred_kvpair+ [','] { a }
 double_starred_kvpair[KeyValuePair*]:
     | '**' a=bitwise_or { _PyPegen_key_value_pair(p, NULL, a) }
+    | ':' a=NAME {_PyPegen_key_value_shorthand(p, a)}
     | kvpair
 kvpair[KeyValuePair*]: a=expression ':' b=expression { _PyPegen_key_value_pair(p, a, b) }
 for_if_clauses[asdl_comprehension_seq*]:

@@ -1622,6 +1622,24 @@ _PyPegen_key_value_pair(Parser *p, expr_ty key, expr_ty value)
     return a;
 }
 
+/* Constructs a KeyValuePair that is used when parsing a dict's key value pairs */
+KeyValuePair *
+_PyPegen_key_value_shorthand(Parser *p, expr_ty key)
+{
+    const char *s = PyUnicode_AsUTF8(key->v.Name.id);
+    PyObject *name = _PyPegen_new_identifier(p, s);
+    expr_ty keyname = Constant(name, NULL, key->lineno, key->col_offset, key->end_lineno, key->end_col_offset,
+                    p->arena);
+
+    KeyValuePair *a = PyArena_Malloc(p->arena, sizeof(KeyValuePair));
+    if (!a) {
+        return NULL;
+    }
+    a->key = keyname;
+    a->value = key;
+    return a;
+}
+
 /* Extracts all keys from an asdl_seq* of KeyValuePair*'s */
 asdl_expr_seq *
 _PyPegen_get_keys(Parser *p, asdl_seq *seq)
