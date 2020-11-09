@@ -1626,8 +1626,8 @@ _PyPegen_key_value_pair(Parser *p, expr_ty key, expr_ty value)
 KeyValuePair *
 _PyPegen_key_value_shorthand(Parser *p, expr_ty key)
 {
-    const char *s = PyUnicode_AsUTF8(key->v.Name.id);
-    PyObject *name = _PyPegen_new_identifier(p, s);
+    PyObject *name = key->v.Name.id;
+    // TODO: need incref?
     expr_ty keyname = Constant(name, NULL, key->lineno, key->col_offset, key->end_lineno, key->end_col_offset,
                     p->arena);
 

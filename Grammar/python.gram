@@ -569,11 +569,13 @@ starred_expression[expr_ty]:
 kwarg_or_starred[KeywordOrStarred*]:
     | a=NAME '=' b=expression {
         _PyPegen_keyword_or_starred(p, CHECK(keyword_ty, _Py_keyword(a->v.Name.id, b, EXTRA)), 1) }
+    | ':' a=NAME {_PyPegen_keyword_or_starred(p, CHECK(keyword_ty, _Py_keyword(a->v.Name.id, a, EXTRA)), 1)}
     | a=starred_expression { _PyPegen_keyword_or_starred(p, a, 0) }
     | invalid_kwarg
 kwarg_or_double_starred[KeywordOrStarred*]:
     | a=NAME '=' b=expression {
         _PyPegen_keyword_or_starred(p, CHECK(keyword_ty, _Py_keyword(a->v.Name.id, b, EXTRA)), 1) }
+    | ':' a=NAME {_PyPegen_keyword_or_starred(p, CHECK(keyword_ty, _Py_keyword(a->v.Name.id, a, EXTRA)), 1)}
     | '**' a=expression { _PyPegen_keyword_or_starred(p, CHECK(keyword_ty, _Py_keyword(NULL, a, EXTRA)), 1) }
     | invalid_kwarg
 
